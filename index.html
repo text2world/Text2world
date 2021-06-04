@@ -1,0 +1,65 @@
+<html>
+    <head></head>
+    <body>
+        <div id="test"></div>
+
+        <script src="index.js"></script>
+<!-- The core Firebase JS SDK is always required and must be listed first -->
+<script src="https://www.gstatic.com/firebasejs/8.6.4/firebase-app.js"></script>
+
+<script src="https://www.gstatic.com/firebasejs/8.6.4/firebase-database.js"></script>
+
+<!-- TODO: Add SDKs for Firebase products that you want to use
+     https://firebase.google.com/docs/web/setup#available-libraries -->
+<script src="https://www.gstatic.com/firebasejs/8.6.4/firebase-analytics.js"></script>
+
+<script>
+  // Your web app's Firebase configuration
+  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+  var firebaseConfig = {
+    apiKey: "AIzaSyC3grTE1Sgf_k2zTiDHkaUcTaPp2DhJscg",
+    authDomain: "text2world-2949b.firebaseapp.com",
+    projectId: "text2world-2949b",
+    storageBucket: "text2world-2949b.appspot.com",
+    messagingSenderId: "158744204058",
+    appId: "1:158744204058:web:b59a13e58ed75a85c612a3",
+    measurementId: "G-D1208MRK2E"
+  };
+  // Initialize Firebase
+  firebase.initializeApp(firebaseConfig);
+  firebase.analytics();
+  var userName = prompt("Enter username");
+
+function sendMessage() {
+    var message = document.getElementById('text').value;
+    firebase.database().ref("messages").push().set({
+        "sender": userName,
+        "message": message
+    });
+    
+    return false;
+}
+
+    firebase.database().ref("messages").on("child_added", function (snapshot) {
+        var html = "";
+        html += "<li>";
+        html += snapshot.val().sender + ": " + snapshot.val().message;
+        html += "";
+        document.getElementById("send").innerHTML += html;
+    })
+    if(userName == undefined)
+    {
+        userName = geust;
+    }
+    setTimeout(function() {
+    var elem = document.getElementsByTagName("LI");
+    elem.parentNode.removeChild(elem);
+}, 20);
+</script>
+<form onsubmit="return sendMessage()">
+    <input type="text" id="text"">
+    <input type="submit" id="submit">
+</form>
+<ul id="send"></ul>
+    </body>
+</html>
